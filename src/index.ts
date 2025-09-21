@@ -48,11 +48,11 @@ bot.callbackQuery(['10', '15', '20'], async (ctx) => {
     const discountPercent = Number(percent)
 
     const withoutNds = check - (check * 12) / 100
-    const tax = (check * 8) / 100
+    const tax = (check * 6) / 100
+    const commission = (check * 2) / 100
     const withDiscount = withoutNds - (withoutNds * discountPercent) / 100
     const dirtyProfit = withoutNds - withDiscount
-    const profit = dirtyProfit - tax
-    const extraProfit = tax - (check * 6) / 100
+    const profit = dirtyProfit - tax - commission
 
     await ctx.answerCallbackQuery()
 
@@ -62,10 +62,11 @@ bot.callbackQuery(['10', '15', '20'], async (ctx) => {
             `• Сумма чека: <b>${formatNumber(check)}</b>`,
             `• Сумма без НДС: <b>${formatNumber(withoutNds)}</b>`,
             `• Налог: <b>${formatNumber(tax)}</b>`,
+            `• Комиссия: <b>${formatNumber(commission)}</b>`,
             `• Без НДС и со скидкой ${percent}%: <b>${formatNumber(withDiscount)}</b>`,
             `• Грязная прибыль: <b>${formatNumber(dirtyProfit)}</b>`,
             `• Прибыль: <b>${formatNumber(profit)}</b>`,
-            `• Мне 😁: <b>${formatNumber(profit / 2 + extraProfit)}</b>`,
+            `• Мне 😁: <b>${formatNumber(profit / 2 + commission)}</b>`,
             `• Не мне 😭: <b>${formatNumber(profit / 2)}</b>`,
         ].join('\n'),
         { parse_mode: 'HTML' }
